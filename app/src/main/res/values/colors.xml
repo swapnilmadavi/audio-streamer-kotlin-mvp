@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#002D4E</color>
+    <color name="colorPrimaryDark">#000126</color>
+    <color name="colorPrimaryLight">#37567A</color>
+    <color name="colorAccent">#37567A</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="homescreen_colorPrimaryDark">@color/colorPrimary</color>
+    <color name="homescreen_record_frame_background_color">#00223d</color>
+    <color name="homescreen_record_color">#f0ffffff</color>
+</resources>
