@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer
+package com.swapyx.audiostreamer.audiostreamer.custom
 
 import android.content.Context
 import android.widget.FrameLayout
