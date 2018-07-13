@@ -15,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Chronometer
-        android:id="@+id/chronometer"
+    <TextView
+        android:id="@+id/timer_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="55sp"
@@ -36,7 +36,7 @@
         app:reusable="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chronometer"
+        app:layout_constraintTop_toBottomOf="@id/timer_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.7">
 

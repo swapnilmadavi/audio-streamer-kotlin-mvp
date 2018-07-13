@@ -37,6 +37,8 @@ interface RecordContract {
         fun disableRecordButton()
 
         fun showResultMessage()
+
+        fun updateTimer(currentTime: String)
     }
 
     interface Presenter : BasePresenter {
@@ -53,5 +55,7 @@ interface RecordContract {
         fun onRecordingError()
 
         fun waitingForResult(sId: String)
+
+        fun onUpdateTime(timeInSeconds: Int)
     }
 }

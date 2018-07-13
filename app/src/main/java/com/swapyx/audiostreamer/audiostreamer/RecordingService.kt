@@ -34,7 +34,11 @@ class RecordingService : Service() {
 
     private lateinit var messageHandler: Handler
 
+    private lateinit var timeHandler: Handler
+
     private var recording = false
+
+    private var timeInSeconds = 0
 
 
     override fun onBind(intent: Intent): IBinder {
@@ -56,6 +60,17 @@ class RecordingService : Service() {
             }
             true
         }
+
+        timeHandler = Handler{ msg ->
+            when (msg.what) {
+                0 -> {
+                    streamServiceListener?.onUpdateTime(timeInSeconds)
+                    timeInSeconds++
+                    this.timeHandler.sendEmptyMessageDelayed(0, 1000)
+                }
+            }
+            true
+        }
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -70,6 +85,15 @@ class RecordingService : Service() {
             if (recordingAsyncTask != null) {
                 recordingAsyncTask!!.cancel(true)
             }
+        }
+
+        try {
+            timeHandler.removeMessages(0)
+            messageHandler.removeMessages(0)
+            messageHandler.removeMessages(1)
+            messageHandler.removeMessages(2)
+        } catch (e: Exception) {
+            Log.d(TAG, "${e.localizedMessage}")
         }
     }
 
@@ -98,6 +122,10 @@ class RecordingService : Service() {
             try {
                 val buffer = ByteArray(BUFFER_SIZE)
 
+                timeInSeconds = 0
+
+                timeHandler.sendEmptyMessage(0)
+
                 recorder!!.startRecording()
                 recording = true
 
@@ -114,6 +142,12 @@ class RecordingService : Service() {
                 recorder!!.apply {
                     stop()
                     release()
+                }
+
+                try {
+                    timeHandler.removeMessages(0)
+                } catch (e: Exception) {
+
                 }
 
                 webSocket.close(1000, "STOP")
@@ -192,6 +226,7 @@ class RecordingService : Service() {
         fun onStreamingStarted(sId: String)
         fun onStreamingStopped()
         fun onRecordingError()
+        fun onUpdateTime(timeInSeconds: Int)
     }
 
     companion object {

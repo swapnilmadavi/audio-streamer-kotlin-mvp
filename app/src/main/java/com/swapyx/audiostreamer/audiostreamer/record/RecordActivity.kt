@@ -20,6 +20,7 @@ import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import com.swapyx.audiostreamer.audiostreamer.RecordingService.LocalBinder
 import android.os.IBinder
 import android.util.Log
+import android.widget.TextView
 import com.swapyx.audiostreamer.audiostreamer.data.RemoteClient
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.remote.ResultRemoteDataSource
@@ -33,6 +34,7 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
     private var TAG = RecordActivity::class.java.simpleName
     private lateinit var fabProgressCircle: FABProgressCircle
     private lateinit var recordButton: FloatingActionButton
+    private lateinit var timerText: TextView
 
     private lateinit var networkChangeReceiver: NetworkChangeReceiver
 
@@ -80,6 +82,9 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
         fabProgressCircle = findViewById<FABProgressCircle>(R.id.fabProgressCircle)
         recordButton = findViewById<FloatingActionButton>(R.id.record_fab)
+        timerText = findViewById<TextView>(R.id.timer_text)
+
+        timerText.text = "00:00"
 
         networkChangeReceiver = NetworkChangeReceiver(this)
 
@@ -253,6 +258,14 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
     override fun showResultMessage() {
         showToastMessage("Fetching results", Toast.LENGTH_SHORT)
+    }
+
+    override fun onUpdateTime(timeInSeconds: Int) {
+        presenter.onUpdateTime(timeInSeconds)
+    }
+
+    override fun updateTimer(currentTime: String) {
+        timerText.text = currentTime
     }
 
     private fun changeRecordButtonIcon() {

@@ -1,6 +1,8 @@
 package com.swapyx.audiostreamer.audiostreamer.record
 
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
+import java.util.*
+
 
 class RecordPresenter(
         var recordView: RecordContract.View?,
@@ -58,6 +60,7 @@ class RecordPresenter(
     override fun onStreamingStopped() {
         recordView?.apply {
             setRecordingStatus(false)
+            updateTimer("00:00")
             changeRecordButtonUi()
             cleanUpRecordingService()
         }
@@ -79,6 +82,17 @@ class RecordPresenter(
         }
 
         resultRepository.loadSessionResult(sId)
+    }
+
+    override fun onUpdateTime(timeInSeconds: Int) {
+        val min = timeInSeconds/60
+        val sec = timeInSeconds%60
+
+        val currentTime = String.format("%s:%s",
+                String.format(Locale.US, "%02d", min),
+                String.format(Locale.US, "%02d", sec))
+
+        recordView?.updateTimer(currentTime)
     }
 
     override fun onDestroy() {
