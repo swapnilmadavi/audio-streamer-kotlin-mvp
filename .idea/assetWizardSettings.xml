@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_mic_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_stop_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -30,7 +30,7 @@
                           <map>
                             <entry key="color" value="f44336" />
                             <entry key="height" value="44" />
-                            <entry key="outputName" value="ic_mic_black_44dp" />
+                            <entry key="outputName" value="ic_stop_red_44dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                             <entry key="width" value="44" />

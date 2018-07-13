@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.homescreen
+package com.swapyx.audiostreamer.audiostreamer.home
 
 import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView

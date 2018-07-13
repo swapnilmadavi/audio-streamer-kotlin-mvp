@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".homescreen.HomeScreenActivity">
+    tools:context=".home.HomeActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_main"
@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="exitUntilCollapsed|scroll"
-            app:contentScrim="?colorPrimary">
+            app:contentScrim="@color/colorPrimary">
 
             <com.swapyx.audiostreamer.audiostreamer.custom.SquareFrameLayout
                 android:id="@+id/record_frame"
@@ -37,7 +37,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar_main"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="?android:actionBarSize"
                 app:layout_collapseMode="pin"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>

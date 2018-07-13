@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.homescreen
+package com.swapyx.audiostreamer.audiostreamer.home
 
 class RecordFramePresenter(var recordView: RecordFrameContract.View?) : RecordFrameContract.Presenter{
 

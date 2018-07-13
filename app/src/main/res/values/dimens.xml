@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="homescreen_record_frame_background_radius">64.0dip</dimen>
-    <dimen name="homescreen_record_button_size">88.0dip</dimen>
+    <dimen name="record_button_background_radius">64.0dip</dimen>
+    <dimen name="record_button_size">88.0dip</dimen>
     <dimen name="text_primary_size">16sp</dimen>
     <dimen name="homescreen_record_text_bottom_margin">114.0dip</dimen>
+    <dimen name="record_button_elevation">6.0dp</dimen>
 </resources>

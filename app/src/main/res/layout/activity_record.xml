@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".record.RecordActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_record"
+        android:layout_width="0dp"
+        android:layout_height="?android:actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="55sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_record"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.25"/>
+
+    <com.github.jorgecastilloprz.FABProgressCircle
+        android:id="@+id/fabProgressCircle"
+        android:layout_width="@dimen/record_button_size"
+        android:layout_height="@dimen/record_button_size"
+        android:background="@drawable/record_frame_background"
+        app:arcColor="@color/colorRed500"
+        app:arcWidth="4dp"
+        app:reusable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chronometer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.7">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/record_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:backgroundTint="@color/record_button_color"
+            app:srcCompat="@drawable/ic_mic_red_44dp"
+            app:elevation="@dimen/record_button_elevation"
+            app:rippleColor="@color/colorAccent"
+            app:borderWidth="0dp"/>
+
+    </com.github.jorgecastilloprz.FABProgressCircle>
+
+</android.support.constraint.ConstraintLayout>

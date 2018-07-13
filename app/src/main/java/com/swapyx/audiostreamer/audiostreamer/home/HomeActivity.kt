@@ -1,5 +1,8 @@
-package com.swapyx.audiostreamer.audiostreamer.homescreen
+package com.swapyx.audiostreamer.audiostreamer.home
 
+import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager.CONNECTIVITY_ACTION
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -10,20 +13,27 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.swapyx.audiostreamer.audiostreamer.R
-import com.swapyx.audiostreamer.audiostreamer.util.isConnectedToInternet
+import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
 import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
+import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
 
-class HomeScreenActivity : AppCompatActivity(), RecordFrameContract.View {
+
+
+class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChangeReceiver.NetworkChangeListener {
 
     override lateinit var presenter: RecordFrameContract.Presenter
 
-    private val TAG = HomeScreenActivity::class.java.simpleName
+    private val TAG = HomeActivity::class.java.simpleName
     private lateinit var appBar: AppBarLayout
     private lateinit var collapsingToolbarLayout: CollapsingToolbarLayout
     private lateinit var toolbar: Toolbar
     private lateinit var tapText: TextView
     private lateinit var recordButton: ImageButton
+
+    private lateinit var networkChangeReceiver: NetworkChangeReceiver
+
+    private var isOnline = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +52,8 @@ class HomeScreenActivity : AppCompatActivity(), RecordFrameContract.View {
 
         setUpAppBar()
 
+        networkChangeReceiver = NetworkChangeReceiver(this)
+
         RecordFramePresenter(this)
 
         recordButton.setOnClickListener {
@@ -49,10 +61,38 @@ class HomeScreenActivity : AppCompatActivity(), RecordFrameContract.View {
         }
     }
 
-    override fun isConnected() = isConnectedToInternet()
+    override fun onResume() {
+        super.onResume()
+        registerReceiver(networkChangeReceiver, IntentFilter(CONNECTIVITY_ACTION))
+    }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(networkChangeReceiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
+    override fun isConnected() = isOnline
+
+    override fun onNetworkStatusChanged(isConnected: Boolean) {
+        if (isConnected) {
+            if (!isOnline) {
+                showToastMessage("Back online", Toast.LENGTH_SHORT)
+                isOnline = true
+            }
+        } else {
+            showNoInternetMessage()
+            isOnline = false
+        }
+    }
 
     override fun openRecordScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val intent = Intent(this, RecordActivity::class.java)
+        startActivity(intent)
     }
 
     override fun showNoInternetMessage() {

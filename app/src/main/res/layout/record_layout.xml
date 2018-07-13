@@ -16,8 +16,8 @@
         android:layout_marginBottom="@dimen/homescreen_record_text_bottom_margin"/>
 
     <FrameLayout
-        android:layout_width="@dimen/homescreen_record_button_size"
-        android:layout_height="@dimen/homescreen_record_button_size"
+        android:layout_width="@dimen/record_button_size"
+        android:layout_height="@dimen/record_button_size"
         android:background="@drawable/record_frame_background"
         android:layout_gravity="bottom|center_horizontal"
         android:padding="8dp">
@@ -25,7 +25,7 @@
             android:id="@+id/homescreen_record_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/homescreen_record_button"
+            android:background="@drawable/record_button"
             app:srcCompat="@drawable/ic_mic_red_44dp"/>
     </FrameLayout>
 
