@@ -35,6 +35,8 @@ interface RecordContract {
         fun enableRecordButton()
 
         fun disableRecordButton()
+
+        fun showResultMessage()
     }
 
     interface Presenter : BasePresenter {
@@ -49,5 +51,7 @@ interface RecordContract {
         fun onStreamingStopped()
 
         fun onRecordingError()
+
+        fun waitingForResult(sId: String)
     }
 }

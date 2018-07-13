@@ -20,6 +20,9 @@ import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import com.swapyx.audiostreamer.audiostreamer.RecordingService.LocalBinder
 import android.os.IBinder
 import android.util.Log
+import com.swapyx.audiostreamer.audiostreamer.data.RemoteClient
+import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
+import com.swapyx.audiostreamer.audiostreamer.data.result.source.remote.ResultRemoteDataSource
 
 
 class RecordActivity : AppCompatActivity(), RecordContract.View,
@@ -80,7 +83,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
         networkChangeReceiver = NetworkChangeReceiver(this)
 
-        RecordPresenter(this)
+        RecordPresenter(
+                this,
+                ResultRepository(ResultRemoteDataSource.getInstance(RemoteClient.client))
+        )
 
         recordButton.setOnClickListener {
             startStopRecording()
@@ -221,6 +227,8 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
             bound = false
         }
         stopService(intent)
+
+        presenter.waitingForResult(currentSId)
     }
 
     override fun showProgress() {
@@ -241,6 +249,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
     override fun showRecordingError() {
         showToastMessage("Recording error", Toast.LENGTH_SHORT)
+    }
+
+    override fun showResultMessage() {
+        showToastMessage("Fetching results", Toast.LENGTH_SHORT)
     }
 
     private fun changeRecordButtonIcon() {

@@ -1,6 +1,11 @@
 package com.swapyx.audiostreamer.audiostreamer.record
 
-class RecordPresenter(var recordView: RecordContract.View?) : RecordContract.Presenter {
+import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
+
+class RecordPresenter(
+        var recordView: RecordContract.View?,
+        var resultRepository: ResultRepository
+) : RecordContract.Presenter {
 
     init {
         recordView?.presenter = this
@@ -64,6 +69,16 @@ class RecordPresenter(var recordView: RecordContract.View?) : RecordContract.Pre
             changeRecordButtonUi()
             showRecordingError()
         }
+    }
+
+    override fun waitingForResult(sId: String) {
+        recordView?.apply {
+            showResultMessage()
+            showProgress()
+            disableRecordButton()
+        }
+
+        resultRepository.loadSessionResult(sId)
     }
 
     override fun onDestroy() {
