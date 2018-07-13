@@ -4,7 +4,8 @@ interface ResultDataSource {
 
     interface LoadSessionListener {
         fun onSessionResultLoaded(resultJson: String)
+        fun onFailure()
     }
 
-    fun loadSessionResult(sId: String)
+    fun loadSessionResult(sId: String, listener: LoadSessionListener)
 }

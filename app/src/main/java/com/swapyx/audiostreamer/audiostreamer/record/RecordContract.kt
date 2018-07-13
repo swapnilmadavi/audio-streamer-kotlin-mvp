@@ -39,6 +39,10 @@ interface RecordContract {
         fun showResultMessage()
 
         fun updateTimer(currentTime: String)
+
+        fun showResult(result: String)
+
+        fun showResultError()
     }
 
     interface Presenter : BasePresenter {

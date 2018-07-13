@@ -260,6 +260,14 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         showToastMessage("Fetching results", Toast.LENGTH_SHORT)
     }
 
+    override fun showResult(result: String) {
+        showToastMessage(result, Toast.LENGTH_LONG)
+    }
+
+    override fun showResultError() {
+        showToastMessage("Failed to fetch the result", Toast.LENGTH_SHORT)
+    }
+
     override fun onUpdateTime(timeInSeconds: Int) {
         presenter.onUpdateTime(timeInSeconds)
     }

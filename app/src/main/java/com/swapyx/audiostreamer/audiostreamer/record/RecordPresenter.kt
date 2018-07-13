@@ -1,5 +1,6 @@
 package com.swapyx.audiostreamer.audiostreamer.record
 
+import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultDataSource
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
 import java.util.*
 
@@ -81,7 +82,23 @@ class RecordPresenter(
             disableRecordButton()
         }
 
-        resultRepository.loadSessionResult(sId)
+        resultRepository.loadSessionResult(sId, object: ResultDataSource.LoadSessionListener {
+            override fun onSessionResultLoaded(resultJson: String) {
+                recordView?.apply{
+                    showResult(resultJson)
+                    changeRecordButtonUi()
+                }
+
+            }
+
+            override fun onFailure() {
+                recordView?.apply {
+                    showResultError()
+                    changeRecordButtonUi()
+                }
+            }
+
+        })
     }
 
     override fun onUpdateTime(timeInSeconds: Int) {

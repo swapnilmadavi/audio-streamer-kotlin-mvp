@@ -1,9 +1,10 @@
 package com.swapyx.audiostreamer.audiostreamer.data.result.source.remote
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultDataSource
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
 class ResultRemoteDataSource private constructor(
@@ -12,14 +13,32 @@ class ResultRemoteDataSource private constructor(
 
     private val TAG = ResultRemoteDataSource::class.java.simpleName
 
-    override fun loadSessionResult(sId: String) {
+    override fun loadSessionResult(sId: String, listener: ResultDataSource.LoadSessionListener) {
+        val handler = Handler(Looper.getMainLooper())
+
         remoteClient.newCall(getResultRequest(sId)).enqueue(object : Callback{
             override fun onFailure(call: Call?, e: IOException?) {
                 Log.d(TAG, "onFailure => ${e?.localizedMessage}")
+                handler.post {
+                    listener.onFailure()
+                }
             }
 
             override fun onResponse(call: Call?, response: Response?) {
-                Log.d(TAG, "onResponse => ${response?.body()?.string()}")
+                var responseString : String? = null
+                try {
+                    responseString = response?.body()?.string()
+                } catch (e: Exception){
+                    Log.d(TAG, "onResponse error=> ${e.localizedMessage}")
+                }
+
+                handler.post {
+                    if (responseString != null) {
+                        listener.onSessionResultLoaded(responseString.toString())
+                    } else {
+                        listener.onSessionResultLoaded("Error")
+                    }
+                }
             }
         })
     }
