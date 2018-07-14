@@ -33,7 +33,12 @@ dependencies {
 
     implementation 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation ('com.squareup.retrofit2:retrofit:2.4.0'){
+        // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
+        exclude module: 'okhttp'
+    }
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
