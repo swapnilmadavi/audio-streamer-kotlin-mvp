@@ -22,7 +22,9 @@ import android.os.IBinder
 import android.util.Log
 import android.view.WindowManager
 import android.widget.TextView
-import com.swapyx.audiostreamer.audiostreamer.data.RemoteClient
+import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote.AudioRemoteDataSource
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.remote.ResultRemoteDataSource
 
@@ -91,7 +93,7 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
         RecordPresenter(
                 this,
-                ResultRepository(ResultRemoteDataSource.getInstance(RemoteClient.client))
+                AudioRepository.getInstance(AudioRemoteDataSource)
         )
 
         recordButton.setOnClickListener {

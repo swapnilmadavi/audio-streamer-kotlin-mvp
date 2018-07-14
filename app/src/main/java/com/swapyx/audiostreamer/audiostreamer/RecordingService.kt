@@ -11,7 +11,7 @@ import android.media.AudioRecord
 import android.os.AsyncTask
 import android.os.Binder
 import android.os.Handler
-import com.swapyx.audiostreamer.audiostreamer.data.RemoteClient
+import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
 import okhttp3.*
 import okio.ByteString
 import org.json.JSONObject
@@ -47,7 +47,7 @@ class RecordingService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        client = RemoteClient.client
+        client = RemoteClientProvider.provideRemoteClient()
 
         request = Request.Builder().url("ws://192.168.1.100:8000/stream").build()
         listener = StreamSocketListener()

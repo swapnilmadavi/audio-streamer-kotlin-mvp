@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
 
     private lateinit var networkChangeReceiver: NetworkChangeReceiver
 
-    private var isOnline = true
+    private var online = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,17 +76,17 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
         presenter.onDestroy()
     }
 
-    override fun isConnected() = isOnline
+    override fun isConnected() = online
 
-    override fun onNetworkStatusChanged(isConnected: Boolean) {
-        if (isConnected) {
-            if (!isOnline) {
+    override fun onNetworkStatusChanged(connected: Boolean) {
+        if (connected) {
+            if (!online) {
                 showToastMessage("Back online", Toast.LENGTH_SHORT)
-                isOnline = true
+                online = true
             }
         } else {
             showNoInternetMessage()
-            isOnline = false
+            online = false
         }
     }
 

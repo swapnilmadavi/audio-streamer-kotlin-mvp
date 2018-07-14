@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -38,7 +40,10 @@ dependencies {
         // exclude Retrofit’s OkHttp peer-dependency module and define your own module import
         exclude module: 'okhttp'
     }
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+
+    implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

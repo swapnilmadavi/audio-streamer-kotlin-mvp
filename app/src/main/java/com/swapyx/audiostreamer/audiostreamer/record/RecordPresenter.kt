@@ -1,5 +1,9 @@
 package com.swapyx.audiostreamer.audiostreamer.record
 
+import android.util.Log
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioDataSource
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultDataSource
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
 import java.util.*
@@ -7,7 +11,7 @@ import java.util.*
 
 class RecordPresenter(
         var recordView: RecordContract.View?,
-        var resultRepository: ResultRepository
+        var audioRepository: AudioRepository
 ) : RecordContract.Presenter {
 
     init {
@@ -85,10 +89,11 @@ class RecordPresenter(
             disableRecordButton()
         }
 
-        resultRepository.loadSessionResult(sId, object: ResultDataSource.LoadSessionListener {
-            override fun onSessionResultLoaded(resultJson: String) {
+        audioRepository.loadSessionResult(sId, object: AudioDataSource.LoadSessionListener {
+            override fun onSessionResultLoaded(result: SessionResult) {
+                Log.d("RecordPresenter", result.toString())
                 recordView?.apply{
-                    showResult(resultJson)
+                    showResult(result.toString())
                     changeRecordButtonUi()
                 }
 
