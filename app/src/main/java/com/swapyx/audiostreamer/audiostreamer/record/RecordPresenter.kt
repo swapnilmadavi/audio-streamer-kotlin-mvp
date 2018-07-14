@@ -55,6 +55,7 @@ class RecordPresenter(
             setCurrentSId(sId)
             setRecordingStatus(true)
             changeRecordButtonUi()
+            setScreenONFlag()
         }
     }
 
@@ -64,6 +65,7 @@ class RecordPresenter(
             updateTimer("00:00")
             changeRecordButtonUi()
             cleanUpRecordingService()
+            clearScreenONFlag()
         }
     }
 
@@ -71,6 +73,7 @@ class RecordPresenter(
         recordView?.apply {
             setRecordingStatus(false)
             changeRecordButtonUi()
+            clearScreenONFlag()
             showRecordingError()
         }
     }

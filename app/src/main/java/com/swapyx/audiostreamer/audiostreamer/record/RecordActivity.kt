@@ -20,6 +20,7 @@ import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import com.swapyx.audiostreamer.audiostreamer.RecordingService.LocalBinder
 import android.os.IBinder
 import android.util.Log
+import android.view.WindowManager
 import android.widget.TextView
 import com.swapyx.audiostreamer.audiostreamer.data.RemoteClient
 import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
@@ -250,6 +251,14 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
     override fun disableRecordButton() {
         recordButton.isEnabled = false
+    }
+
+    override fun setScreenONFlag() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    override fun clearScreenONFlag() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun showRecordingError() {

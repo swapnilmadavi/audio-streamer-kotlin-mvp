@@ -43,6 +43,10 @@ interface RecordContract {
         fun showResult(result: String)
 
         fun showResultError()
+
+        fun setScreenONFlag()
+
+        fun clearScreenONFlag()
     }
 
     interface Presenter : BasePresenter {
