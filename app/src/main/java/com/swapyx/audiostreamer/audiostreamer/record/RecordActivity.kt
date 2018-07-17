@@ -1,6 +1,7 @@
 package com.swapyx.audiostreamer.audiostreamer.record
 
 import android.Manifest
+import android.app.Activity
 import android.content.*
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
@@ -22,15 +23,13 @@ import android.os.IBinder
 import android.util.Log
 import android.view.WindowManager
 import android.widget.TextView
-import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote.AudioRemoteDataSource
-import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
-import com.swapyx.audiostreamer.audiostreamer.data.result.source.remote.ResultRemoteDataSource
-
 
 class RecordActivity : AppCompatActivity(), RecordContract.View,
-        NetworkChangeReceiver.NetworkChangeListener, RecordingService.StreamServiceListener {
+        NetworkChangeReceiver.NetworkChangeListener, RecordingService.StreamServiceListener,
+        AbortRecordingDialog.AbortRecordingDialogListener {
 
     override lateinit var presenter: RecordContract.Presenter
 
@@ -160,6 +159,14 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         return true
     }
 
+    override fun onBackPressed() {
+        if (recording) {
+            showAbortDialog()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>,
                                             grantResults: IntArray) {
         var permissionToRecordAccepted = false
@@ -228,15 +235,8 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         recordingService?.stopRecording()
     }
 
-    override fun cleanUpRecordingService() {
-        val intent = Intent(this, RecordingService::class.java)
-        if (bound) {
-            unbindService(serviceConnection)
-            bound = false
-        }
-        stopService(intent)
-
-        presenter.waitingForResult(currentSId)
+    override fun onRecordingCompleted() {
+        presenter.fetchSessionResult(currentSId)
     }
 
     override fun showProgress() {
@@ -271,12 +271,25 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         showToastMessage("Fetching results", Toast.LENGTH_SHORT)
     }
 
-    override fun showResult(result: String) {
-        showToastMessage(result, Toast.LENGTH_LONG)
+    override fun setResult(result: SessionResult) {
+        //showToastMessage(result.toString(), Toast.LENGTH_LONG)
+        val resultIntent = Intent().apply {
+            putExtra(SESSION_RESULT, result)
+        }
+
+        setResult(Activity.RESULT_OK, resultIntent)
+    }
+
+    override fun setSessionCancelled() {
+        setResult(Activity.RESULT_CANCELED)
     }
 
     override fun showResultError() {
         showToastMessage("Failed to fetch the result", Toast.LENGTH_SHORT)
+    }
+
+    override fun returnToHome() {
+        finish()
     }
 
     override fun onUpdateTime(timeInSeconds: Int) {
@@ -303,7 +316,28 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         }
     }
 
+    private fun showAbortDialog() {
+        val fm = supportFragmentManager
+        val abortRecordingDialogFragment = AbortRecordingDialog.newInstance()
+        abortRecordingDialogFragment.show(fm, "fragment_abort_recording")
+    }
+
+    override fun onAbortClicked() {
+        showToastMessage("Abort clicked", Toast.LENGTH_SHORT)
+        presenter.onAbortClicked()
+    }
+
+    override fun stopAndUnbindService() {
+        val intent = Intent(this, RecordingService::class.java)
+        if (bound) {
+            unbindService(serviceConnection)
+            bound = false
+        }
+        stopService(intent)
+    }
+
     companion object {
         private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
+        const val SESSION_RESULT = "session_result"
     }
 }

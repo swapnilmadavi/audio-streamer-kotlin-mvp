@@ -4,8 +4,7 @@ import android.util.Log
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioDataSource
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
-import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultDataSource
-import com.swapyx.audiostreamer.audiostreamer.data.result.source.ResultRepository
+
 import java.util.*
 
 
@@ -68,8 +67,9 @@ class RecordPresenter(
             setRecordingStatus(false)
             updateTimer("00:00")
             changeRecordButtonUi()
-            cleanUpRecordingService()
             clearScreenONFlag()
+            stopAndUnbindService()
+            onRecordingCompleted()
         }
     }
 
@@ -82,7 +82,7 @@ class RecordPresenter(
         }
     }
 
-    override fun waitingForResult(sId: String) {
+    override fun fetchSessionResult(sId: String) {
         recordView?.apply {
             showResultMessage()
             showProgress()
@@ -93,8 +93,9 @@ class RecordPresenter(
             override fun onSessionResultLoaded(result: SessionResult) {
                 Log.d("RecordPresenter", result.toString())
                 recordView?.apply{
-                    showResult(result.toString())
+                    setResult(result)
                     changeRecordButtonUi()
+                    returnToHome()
                 }
 
             }
@@ -118,6 +119,14 @@ class RecordPresenter(
                 String.format(Locale.US, "%02d", sec))
 
         recordView?.updateTimer(currentTime)
+    }
+
+    override fun onAbortClicked() {
+        recordView?.apply {
+            stopAndUnbindService()
+            setSessionCancelled()
+            returnToHome()
+        }
     }
 
     override fun onDestroy() {

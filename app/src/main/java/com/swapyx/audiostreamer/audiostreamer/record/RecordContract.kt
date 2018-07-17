@@ -2,6 +2,7 @@ package com.swapyx.audiostreamer.audiostreamer.record
 
 import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
 interface RecordContract {
 
@@ -24,7 +25,7 @@ interface RecordContract {
 
         fun changeRecordButtonUi()
 
-        fun cleanUpRecordingService()
+        fun onRecordingCompleted()
 
         fun showRecordingError()
 
@@ -40,13 +41,20 @@ interface RecordContract {
 
         fun updateTimer(currentTime: String)
 
-        fun showResult(result: String)
+        fun setResult(result: SessionResult)
 
         fun showResultError()
 
         fun setScreenONFlag()
 
         fun clearScreenONFlag()
+
+        fun returnToHome()
+
+        fun stopAndUnbindService()
+
+        fun setSessionCancelled()
+
     }
 
     interface Presenter : BasePresenter {
@@ -62,8 +70,10 @@ interface RecordContract {
 
         fun onRecordingError()
 
-        fun waitingForResult(sId: String)
+        fun fetchSessionResult(sId: String)
 
         fun onUpdateTime(timeInSeconds: Int)
+
+        fun onAbortClicked()
     }
 }

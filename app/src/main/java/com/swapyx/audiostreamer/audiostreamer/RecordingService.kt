@@ -49,7 +49,7 @@ class RecordingService : Service() {
         super.onCreate()
         client = RemoteClientProvider.provideRemoteClient()
 
-        request = Request.Builder().url("ws://192.168.1.100:8000/stream").build()
+        request = Request.Builder().url("ws://192.168.1.101:8000/stream").build()
         listener = StreamSocketListener()
 
         messageHandler = Handler{ msg ->
@@ -93,7 +93,7 @@ class RecordingService : Service() {
             messageHandler.removeMessages(1)
             messageHandler.removeMessages(2)
         } catch (e: Exception) {
-            Log.d(TAG, "${e.localizedMessage}")
+            Log.d(TAG, e.localizedMessage)
         }
     }
 

@@ -16,7 +16,7 @@ interface AudioService {
     companion object Factory {
         fun create(): AudioService {
             val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.1.100:8000/")
+                    .baseUrl("http://192.168.1.101:8000/")
                     .client(RemoteClientProvider.provideRemoteClient())
                     .addConverterFactory(MoshiConverterFactory.create())
                     .build()
