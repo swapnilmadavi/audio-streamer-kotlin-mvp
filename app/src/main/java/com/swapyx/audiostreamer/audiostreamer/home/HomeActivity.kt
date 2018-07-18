@@ -17,7 +17,6 @@ import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
 import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
 import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
-import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionData
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
 
@@ -36,6 +35,11 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
     private lateinit var networkChangeReceiver: NetworkChangeReceiver
 
     private var online = true
+
+    private var resultDialogFlagOnReturn: Boolean = false
+
+    private var sessionResult: SessionResult? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +72,14 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
         registerReceiver(networkChangeReceiver, IntentFilter(CONNECTIVITY_ACTION))
     }
 
+    override fun onPostResume() {
+        super.onPostResume()
+        if (resultDialogFlagOnReturn) {
+            showResultDialog()
+            resultDialogFlagOnReturn = false
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         unregisterReceiver(networkChangeReceiver)
@@ -84,19 +96,28 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 val result =  data?.extras?.getParcelable<SessionResult>(RecordActivity.SESSION_RESULT)
-                showToastMessage(result.toString(), Toast.LENGTH_LONG)
-                showResultDialog()
+
+                presenter.onResultOK(result)
             }
         }
 
     }
 
-    private fun showResultDialog() {
-        val sessionData = SessionData(4, 12.56, 145123)
-        val sessionResult = SessionResult("XBSGDCB", true, 554221, sessionData)
+    override fun setResultFlagOnReturn() {
+        resultDialogFlagOnReturn = true
+    }
 
+    override fun setResultOnReturn(result: SessionResult) {
+        sessionResult = result
+    }
+
+    override fun showSessionFailed() {
+        showToastMessage("Session failed!", Toast.LENGTH_LONG)
+    }
+
+    override fun showResultDialog() {
         val fm = supportFragmentManager
-        val abortRecordingDialogFragment = ResultDialog.newInstance(sessionResult)
+        val abortRecordingDialogFragment = ResultDialog.newInstance(sessionResult!!)
         abortRecordingDialogFragment.show(fm, "fragment_result")
     }
 
@@ -115,9 +136,8 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
     }
 
     override fun openRecordScreen() {
-        /*val intent = Intent(this, RecordActivity::class.java)
-        startActivityForResult(intent, RECORD_REQUEST_CODE)*/
-        showResultDialog()
+        val intent = Intent(this, RecordActivity::class.java)
+        startActivityForResult(intent, RECORD_REQUEST_CODE)
     }
 
     override fun showNoInternetMessage() {

@@ -18,7 +18,6 @@ import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResu
 
 class ResultDialog : DialogFragment() {
 
-    private lateinit var sessionNameText: TextView
     private lateinit var sessionScoreText: TextView
     private lateinit var sessionTimeStampText: TextView
     private lateinit var sessionLengthText: TextView
@@ -30,7 +29,6 @@ class ResultDialog : DialogFragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_result, container)
         with(view) {
-            sessionNameText = findViewById(R.id.session_name_text)
             closeButton = findViewById(R.id.close_button)
             progress = findViewById(R.id.progressCircle_result)
             playStopButton = findViewById(R.id.fab_result_play_stop)
@@ -59,7 +57,6 @@ class ResultDialog : DialogFragment() {
     private fun readData() {
         val result = arguments?.getParcelable<SessionResult>(ARGUMENT_SESSION_RESULT)
         if (result != null) {
-            sessionNameText.text = result.sId
             sessionScoreText.text = getString(R.string.your_score, result.data.score.toString())
             sessionTimeStampText.text = result.timestamp.toString()
             sessionLengthText.text = result.data.length.toString()
