@@ -18,6 +18,7 @@ import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
 import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
+import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
 
 
 class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChangeReceiver.NetworkChangeListener {
@@ -83,9 +84,16 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
             if (resultCode == RESULT_OK) {
                 val result =  data?.extras?.getParcelable<SessionResult>(RecordActivity.SESSION_RESULT)
                 showToastMessage(result.toString(), Toast.LENGTH_LONG)
+                showResultDialog()
             }
         }
 
+    }
+
+    private fun showResultDialog() {
+        val fm = supportFragmentManager
+        val abortRecordingDialogFragment = ResultDialog.newInstance()
+        abortRecordingDialogFragment.show(fm, "fragment_result")
     }
 
     override fun isConnected() = online
@@ -103,8 +111,9 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
     }
 
     override fun openRecordScreen() {
-        val intent = Intent(this, RecordActivity::class.java)
-        startActivityForResult(intent, RECORD_REQUEST_CODE)
+        /*val intent = Intent(this, RecordActivity::class.java)
+        startActivityForResult(intent, RECORD_REQUEST_CODE)*/
+        showResultDialog()
     }
 
     override fun showNoInternetMessage() {
