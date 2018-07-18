@@ -17,6 +17,7 @@ import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
 import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
 import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionData
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
 
@@ -91,8 +92,11 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
     }
 
     private fun showResultDialog() {
+        val sessionData = SessionData(4, 12.56, 145123)
+        val sessionResult = SessionResult("XBSGDCB", true, 554221, sessionData)
+
         val fm = supportFragmentManager
-        val abortRecordingDialogFragment = ResultDialog.newInstance()
+        val abortRecordingDialogFragment = ResultDialog.newInstance(sessionResult)
         abortRecordingDialogFragment.show(fm, "fragment_result")
     }
 

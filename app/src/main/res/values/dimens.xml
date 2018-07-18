@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
     <dimen name="record_button_background_radius">64.0dip</dimen>
     <dimen name="record_button_size">88.0dip</dimen>
     <dimen name="text_primary_size">16sp</dimen>

@@ -7,24 +7,25 @@
     android:background="@color/colorPrimary">
 
     <TextView
+        android:id="@+id/session_name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="XVKSDGDL"
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_normal" />
 
     <ImageButton
+        android:id="@+id/close_button"
         android:layout_width="12dp"
         android:layout_height="12dp"
         app:srcCompat="@drawable/ic_close_white_24dp"
         android:background="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:layout_marginTop="11dp" />
 
     <com.github.jorgecastilloprz.FABProgressCircle
@@ -55,7 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:padding="8dp"
+        android:padding="@dimen/padding_normal"
         app:layout_constraintTop_toBottomOf="@id/progressCircle_result"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +69,7 @@
             android:layout_height="wrap_content"
             android:text="@string/your_score"
             android:textSize="@dimen/text_primary_size"
+            android:textColor="@color/primary_text_color"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -75,21 +77,21 @@
             android:id="@+id/session_timestamp_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18/07"
+            android:textColor="@color/secondary_text_color"
             app:layout_constraintTop_toBottomOf="@id/score_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="@dimen/margin_small"/>
 
         <TextView
             android:id="@+id/session_length_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0:52"
+            android:textColor="@color/secondary_text_color"
             app:layout_constraintTop_toBottomOf="@id/score_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="@dimen/margin_normal"/>
 
     </android.support.constraint.ConstraintLayout>
 

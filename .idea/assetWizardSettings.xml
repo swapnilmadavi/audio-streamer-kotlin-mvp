@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_stop_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/usr/local/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_play_arrow_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,12 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="f44336" />
-                            <entry key="height" value="44" />
-                            <entry key="outputName" value="ic_stop_red_44dp" />
+                            <entry key="color" value="002d4e" />
+                            <entry key="outputName" value="ic_play_arrow_blue_24dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="$USER_HOME$" />
-                            <entry key="width" value="44" />
                           </map>
                         </option>
                       </PersistentState>

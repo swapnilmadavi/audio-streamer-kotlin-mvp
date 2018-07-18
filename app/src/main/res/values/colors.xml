@@ -5,10 +5,13 @@
     <color name="colorPrimaryLight">#37567A</color>
     <color name="colorAccent">#37567A</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorRed500">#F44336</color>
+
     <color name="homescreen_colorPrimaryDark">@color/colorPrimary</color>
     <color name="record_frame_background_color">#00223d</color>
     <color name="record_button_color">#f0ffffff</color>
-    <color name="colorRed500">#F44336</color>
     <color name="divider_color">#ffd8d8d8</color>
-    <color name="colorBlack">#000000</color>
+    <color name="primary_text_color">#4D4D4D</color>
+    <color name="secondary_text_color">#757575</color>
 </resources>
