@@ -8,6 +8,7 @@ import android.net.ConnectivityManager
 import com.github.jorgecastilloprz.FABProgressCircle
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -174,7 +175,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
             REQUEST_RECORD_AUDIO_PERMISSION ->
                 permissionToRecordAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED
         }
-        if (!permissionToRecordAccepted) finish()
+        if (!permissionToRecordAccepted) {
+            setSessionCancelled()
+            returnToHome()
+        }
     }
 
     override fun isConnected() = online
@@ -289,7 +293,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
     }
 
     override fun returnToHome() {
-        finish()
+        Handler().postDelayed(Runnable {
+            finish()
+        }, 2000)
+
     }
 
     override fun onUpdateTime(timeInSeconds: Int) {
