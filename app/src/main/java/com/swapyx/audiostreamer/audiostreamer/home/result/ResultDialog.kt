@@ -71,6 +71,7 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
                     playAudio()
                 }
             } else {
+                audioPrepared = false
                 stopAudio()
             }
         }
