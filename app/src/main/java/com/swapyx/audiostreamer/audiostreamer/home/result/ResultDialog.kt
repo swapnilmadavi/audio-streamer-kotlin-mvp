@@ -160,15 +160,18 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
         Log.d(TAG, "onPrepared")
         audioPrepared = true
         progress.hide()
+        playStopButton.isEnabled = true
         //Invoked when the media source is ready for playback.
         playAudio()
     }
 
     private fun playAudio() {
+        playStopButton.setImageResource(R.drawable.ic_stop_blue_24dp)
         mediaPlayer?.start()
     }
 
     private fun stopAudio() {
+        playStopButton.setImageResource(R.drawable.ic_play_arrow_blue_24dp)
         mediaPlayer?.stop()
     }
 
