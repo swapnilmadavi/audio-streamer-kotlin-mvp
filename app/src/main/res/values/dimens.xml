@@ -11,4 +11,5 @@
     <dimen name="text_primary_size">16sp</dimen>
     <dimen name="homescreen_record_text_bottom_margin">114.0dip</dimen>
     <dimen name="record_button_elevation">6.0dp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
 </resources>

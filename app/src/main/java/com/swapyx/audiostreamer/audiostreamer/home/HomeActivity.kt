@@ -18,7 +18,11 @@ import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
 import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote.AudioRemoteDataSource
 import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
+import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsFragment
+import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsPresenter
 
 
 class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChangeReceiver.NetworkChangeListener {
@@ -65,6 +69,16 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
         recordButton.setOnClickListener {
             presenter.openRecordScreen()
         }
+
+        val sessionsFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
+                as SessionsFragment? ?: SessionsFragment.newInstance().also {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.contentFrame, it)
+                    .commit()
+        }
+
+        SessionsPresenter(sessionsFragment, AudioRepository.getInstance(AudioRemoteDataSource))
     }
 
     override fun onResume() {

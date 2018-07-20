@@ -19,7 +19,9 @@ import com.swapyx.audiostreamer.audiostreamer.R
  * create an instance of this fragment.
  *
  */
-class SessionsFragment : Fragment() {
+class SessionsFragment : Fragment(), SessionsContract.View {
+
+    override lateinit var presenter: SessionsContract.Presenter
 
     private var listener: OnFragmentInteractionListener? = null
 
