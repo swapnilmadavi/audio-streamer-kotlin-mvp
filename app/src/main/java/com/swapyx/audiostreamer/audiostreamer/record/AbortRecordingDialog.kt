@@ -26,7 +26,7 @@ class AbortRecordingDialog : DialogFragment() {
         return alertDialogBuilder.create()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         // This makes sure that the container activity has implemented
@@ -36,6 +36,11 @@ class AbortRecordingDialog : DialogFragment() {
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + " must implement OnHeadlineSelectedListener")
         }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     interface AbortRecordingDialogListener {
