@@ -4,7 +4,7 @@ import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
-interface RecordFrameContract {
+interface HomeContract {
 
     interface View : BaseView<Presenter> {
         fun isConnected() : Boolean

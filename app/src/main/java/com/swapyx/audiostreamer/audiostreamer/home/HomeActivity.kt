@@ -26,10 +26,10 @@ import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsPresenter
 import com.swapyx.audiostreamer.audiostreamer.util.NetworkUtils
 
 
-class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
+class HomeActivity : AppCompatActivity(), HomeContract.View,
         NetworkChangeReceiver.NetworkChangeListener, SessionsFragment.SessionsListListener {
 
-    override lateinit var presenter: RecordFrameContract.Presenter
+    override lateinit var presenter: HomeContract.Presenter
 
     private val TAG = HomeActivity::class.java.simpleName
     private lateinit var appBar: AppBarLayout
@@ -70,7 +70,7 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
 
         networkChangeReceiver = NetworkChangeReceiver(this)
 
-        RecordFramePresenter(this)
+        HomePresenter(this)
 
         recordButton.setOnClickListener {
             presenter.openRecordScreen()
