@@ -23,6 +23,7 @@ import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote.Aud
 import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
 import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsFragment
 import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsPresenter
+import com.swapyx.audiostreamer.audiostreamer.util.NetworkUtils
 
 
 class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
@@ -161,6 +162,10 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
 
     override fun showNoInternetMessage() {
         showToastMessage("No internet connection", Toast.LENGTH_SHORT)
+    }
+
+    override fun isConnectedToNetwork(): Boolean {
+        return NetworkUtils.isNetworkConnected(this)
     }
 
     private fun setUpAppBar() {

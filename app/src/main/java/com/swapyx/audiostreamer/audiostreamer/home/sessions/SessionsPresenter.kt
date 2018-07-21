@@ -14,6 +14,14 @@ class SessionsPresenter(
     }
 
     override fun loadPastSessions() {
+        if (sessionsView?.isConnectedToNetwork() == true) {
+            fetchPastSessions()
+        } else {
+            sessionsView?.showError("No internet connection")
+        }
+    }
+
+    private fun fetchPastSessions() {
         audioRepository.loadPastSessions(object : AudioDataSource.LoadPastSessionsListener {
             override fun onPastSessionsLoaded(sessionList: List<Session>) {
                 if (sessionList.isEmpty()) {

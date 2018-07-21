@@ -16,6 +16,8 @@ interface SessionsContract {
 
         fun showError(error: String)
 
+        fun isConnectedToNetwork(): Boolean
+
     }
 
     interface Presenter : BasePresenter {

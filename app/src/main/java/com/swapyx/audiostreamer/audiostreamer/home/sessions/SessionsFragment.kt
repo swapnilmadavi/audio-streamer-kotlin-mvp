@@ -39,6 +39,8 @@ class SessionsFragment : Fragment(), SessionsContract.View {
 
     private lateinit var progress: ProgressBar
 
+    private var dataLoaded = false
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -102,6 +104,10 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         showErrorLabel()
     }
 
+    override fun isConnectedToNetwork(): Boolean {
+        return listener?.isConnectedToNetwork() ?: false
+    }
+
     private fun showErrorLabel() {
         errorLabel.visibility = View.VISIBLE
     }
@@ -120,6 +126,8 @@ class SessionsFragment : Fragment(), SessionsContract.View {
     interface SessionsListListener {
 
         fun isConnected() : Boolean
+
+        fun isConnectedToNetwork(): Boolean
     }
 
     companion object {
