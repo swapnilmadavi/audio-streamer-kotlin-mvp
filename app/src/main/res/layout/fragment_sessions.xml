@@ -5,5 +5,25 @@
     android:layout_height="match_parent"
     tools:context=".home.sessions.SessionsFragment">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/past_sessions_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progress_sessions_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_margin="@dimen/margin_big"/>
+
+    <TextView
+        android:id="@+id/error_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_margin="@dimen/margin_big"
+        android:visibility="gone"/>
 
 </FrameLayout>

@@ -89,7 +89,7 @@ class RecordPresenter(
             disableRecordButton()
         }
 
-        audioRepository.loadSessionResult(sId, object: AudioDataSource.LoadSessionListener {
+        audioRepository.loadSessionResult(sId, object: AudioDataSource.LoadSessionResultListener {
             override fun onSessionResultLoaded(result: SessionResult) {
                 Log.d("RecordPresenter", result.toString())
                 recordView?.apply{

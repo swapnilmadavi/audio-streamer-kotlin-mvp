@@ -25,7 +25,8 @@ import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsFragment
 import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsPresenter
 
 
-class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChangeReceiver.NetworkChangeListener {
+class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
+        NetworkChangeReceiver.NetworkChangeListener, SessionsFragment.SessionsListListener {
 
     override lateinit var presenter: RecordFrameContract.Presenter
 
@@ -43,6 +44,8 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
     private var resultDialogFlagOnReturn: Boolean = false
 
     private var sessionResult: SessionResult? = null
+
+    private lateinit var sessionsPresenter: SessionsPresenter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,7 +81,7 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
                     .commit()
         }
 
-        SessionsPresenter(sessionsFragment, AudioRepository.getInstance(AudioRemoteDataSource))
+        sessionsPresenter = SessionsPresenter(sessionsFragment, AudioRepository.getInstance(AudioRemoteDataSource))
     }
 
     override fun onResume() {
@@ -91,6 +94,8 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View, NetworkChang
         if (resultDialogFlagOnReturn) {
             showResultDialog()
             resultDialogFlagOnReturn = false
+        } else {
+            sessionsPresenter.loadPastSessions()
         }
     }
 
