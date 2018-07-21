@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/item_session_length"
+        android:id="@+id/item_session_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary_text_color"
@@ -22,7 +22,7 @@
         android:textSize="@dimen/text_primary_size"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/item_session_length"/>
+        app:layout_constraintEnd_toStartOf="@id/item_session_status"/>
 
     <TextView
         android:id="@+id/item_session_timestamp"
