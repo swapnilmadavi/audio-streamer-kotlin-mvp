@@ -18,6 +18,8 @@ interface SessionsContract {
 
         fun isConnectedToNetwork(): Boolean
 
+        fun setDataLoaded(dataLoaded: Boolean)
+
     }
 
     interface Presenter : BasePresenter {

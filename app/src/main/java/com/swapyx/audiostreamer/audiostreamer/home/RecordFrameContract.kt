@@ -20,6 +20,8 @@ interface RecordFrameContract {
         fun showResultDialog()
 
         fun setResultOnReturn(result: SessionResult)
+
+        fun setPastSessionsDataAsDirty()
     }
 
     interface Presenter : BasePresenter {

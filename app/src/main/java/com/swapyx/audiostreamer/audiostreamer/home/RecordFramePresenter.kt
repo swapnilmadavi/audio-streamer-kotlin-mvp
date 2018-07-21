@@ -23,6 +23,7 @@ class RecordFramePresenter(var recordView: RecordFrameContract.View?) : RecordFr
             if (result != null) {
                 setResultFlagOnReturn()
                 setResultOnReturn(result)
+                setPastSessionsDataAsDirty()
             } else {
                 showSessionFailed()
             }

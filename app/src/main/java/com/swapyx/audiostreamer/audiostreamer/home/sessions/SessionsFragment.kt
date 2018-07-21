@@ -104,6 +104,12 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         showErrorLabel()
     }
 
+    override fun setDataLoaded(dataLoaded: Boolean) {
+        this.dataLoaded = dataLoaded
+    }
+
+    fun isDataLoaded() = dataLoaded
+
     override fun isConnectedToNetwork(): Boolean {
         return listener?.isConnectedToNetwork() ?: false
     }

@@ -49,6 +49,8 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
     private lateinit var sessionsPresenter: SessionsPresenter
 
 
+    private lateinit var sessionsFragment: SessionsFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -74,7 +76,7 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
             presenter.openRecordScreen()
         }
 
-        val sessionsFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
+        sessionsFragment = supportFragmentManager.findFragmentById(R.id.contentFrame)
                 as SessionsFragment? ?: SessionsFragment.newInstance().also {
             supportFragmentManager
                     .beginTransaction()
@@ -96,7 +98,9 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
             showResultDialog()
             resultDialogFlagOnReturn = false
         } else {
-            sessionsPresenter.loadPastSessions()
+            if (!sessionsFragment.isDataLoaded()){
+                sessionsPresenter.loadPastSessions()
+            }
         }
     }
 
@@ -133,6 +137,10 @@ class HomeActivity : AppCompatActivity(), RecordFrameContract.View,
 
     override fun showSessionFailed() {
         showToastMessage("Session failed!", Toast.LENGTH_LONG)
+    }
+
+    override fun setPastSessionsDataAsDirty() {
+        sessionsPresenter.setDataAsDirty()
     }
 
     override fun showResultDialog() {

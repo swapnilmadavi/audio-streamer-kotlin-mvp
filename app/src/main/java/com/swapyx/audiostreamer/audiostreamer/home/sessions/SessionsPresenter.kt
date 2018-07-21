@@ -17,7 +17,10 @@ class SessionsPresenter(
         if (sessionsView?.isConnectedToNetwork() == true) {
             fetchPastSessions()
         } else {
-            sessionsView?.showError("No internet connection")
+            with(sessionsView!!) {
+                hideProgress()
+                showError("No internet connection")
+            }
         }
     }
 
@@ -33,6 +36,7 @@ class SessionsPresenter(
                     with(sessionsView!!) {
                         hideProgress()
                         updateList(sessionList)
+                        setDataLoaded(true)
                         showList()
                     }
                 }
@@ -49,6 +53,10 @@ class SessionsPresenter(
 
     override fun onDestroy() {
         sessionsView = null
+    }
+
+    fun setDataAsDirty() {
+        sessionsView?.setDataLoaded(false)
     }
 
 }
