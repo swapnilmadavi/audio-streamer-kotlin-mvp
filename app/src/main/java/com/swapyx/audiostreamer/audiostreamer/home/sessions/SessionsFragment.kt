@@ -4,6 +4,8 @@ import android.content.Context
 import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import com.swapyx.audiostreamer.audiostreamer.R
+import com.swapyx.audiostreamer.audiostreamer.custom.DividerItemDecorator
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
 
 /**
@@ -63,6 +66,14 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         }
 
         pastSessionsList.layoutManager = layoutManager
+
+        val dividerItemDecoration = DividerItemDecorator(
+                ContextCompat.getDrawable(context!!, R.drawable.list_divider)!!)
+
+        pastSessionsList.addItemDecoration(dividerItemDecoration)
+
+        ViewCompat.setNestedScrollingEnabled(pastSessionsList, false)
+
         pastSessionsList.adapter = adapter
 
         //presenter.loadPastSessions()
