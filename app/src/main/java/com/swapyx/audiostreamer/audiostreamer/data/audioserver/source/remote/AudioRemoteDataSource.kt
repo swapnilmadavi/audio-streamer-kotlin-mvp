@@ -1,6 +1,7 @@
 package com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote
 
 import android.util.Log
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioDataSource
 import retrofit2.Call
@@ -11,7 +12,28 @@ object AudioRemoteDataSource : AudioDataSource {
 
     private val TAG = AudioRemoteDataSource::class.java.simpleName
 
-    override fun loadSessionResult(sId: String, listener: AudioDataSource.LoadSessionListener) {
+    override fun loadPastSessions(listener: AudioDataSource.LoadPastSessionsListener) {
+        val call = AudioService.create().getPastSessions()
+
+        call.enqueue(object : Callback<List<Session>> {
+            override fun onResponse(call: Call<List<Session>>?, response: Response<List<Session>>?) {
+                val result = response?.body()
+                if (result != null) {
+                    listener.onPastSessionsLoaded(result)
+                } else {
+                    listener.onFailure()
+                }
+            }
+
+            override fun onFailure(call: Call<List<Session>>?, t: Throwable?) {
+                Log.d(TAG, "onFailure => ${t?.localizedMessage}")
+                listener.onFailure()
+            }
+
+        })
+    }
+
+    override fun loadSessionResult(sId: String, listener: AudioDataSource.LoadSessionResultListener) {
         val call = AudioService.create().getResult(sId)
 
         call.enqueue(object : Callback<SessionResult> {

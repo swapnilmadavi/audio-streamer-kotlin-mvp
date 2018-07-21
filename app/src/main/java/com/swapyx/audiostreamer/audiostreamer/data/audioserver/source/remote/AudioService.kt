@@ -1,6 +1,7 @@
 package com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote
 
 import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -12,6 +13,9 @@ interface AudioService {
 
     @GET("session/{sId}")
     fun getResult(@Path("sId") sId: String): Call<SessionResult>
+
+    @GET("sessions")
+    fun getPastSessions(): Call<List<Session>>
 
     companion object Factory {
         fun create(): AudioService {
