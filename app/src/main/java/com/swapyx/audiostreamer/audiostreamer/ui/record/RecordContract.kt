@@ -55,6 +55,10 @@ interface RecordContract {
 
         fun setSessionCancelled()
 
+        fun isRecording(): Boolean
+
+        fun showNetworkErrorDialog()
+
     }
 
     interface Presenter : BasePresenter {

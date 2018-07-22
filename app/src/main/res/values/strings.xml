@@ -4,4 +4,6 @@
     <string name="tap_to_record">Tap to record</string>
     <string name="your_score">Your score: %s</string>
     <string name="result">Result</string>
+    <string name="error">Error</string>
+    <string name="network_interrupt_message">Session was interrupted due to network issues. Please check your internet connection.</string>
 </resources>

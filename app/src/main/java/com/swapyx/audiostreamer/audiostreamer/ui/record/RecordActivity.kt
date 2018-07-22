@@ -47,7 +47,6 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
     private var bound = false
 
-
     private var online = true
 
     private var recording = false
@@ -186,6 +185,8 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
     override fun setOnline(online: Boolean) {
         this.online = online
     }
+
+    override fun isRecording(): Boolean = recording
 
     override fun showBackOnlineMessage() {
         showToastMessage("Back online", Toast.LENGTH_SHORT)
@@ -332,6 +333,12 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
     override fun onAbortClicked() {
         showToastMessage("Abort clicked", Toast.LENGTH_SHORT)
         presenter.onAbortClicked()
+    }
+
+    override fun showNetworkErrorDialog() {
+        val fm = supportFragmentManager
+        val networkInterruptDialog = NetworkInterruptDialog.newInstance()
+        networkInterruptDialog.show(fm, "fragment_network_interrupt")
     }
 
     override fun stopAndUnbindService() {

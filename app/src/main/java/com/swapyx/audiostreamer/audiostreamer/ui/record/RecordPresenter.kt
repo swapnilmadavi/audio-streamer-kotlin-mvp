@@ -47,7 +47,13 @@ class RecordPresenter(
             }
         } else {
             recordView?.apply {
-                showNoInternetMessage()
+                if (isRecording()) {
+                    stopRecording()
+                    showNetworkErrorDialog()
+                } else {
+                    showNoInternetMessage()
+                }
+
                 setOnline(false)
             }
         }
@@ -69,7 +75,9 @@ class RecordPresenter(
             changeRecordButtonUi()
             clearScreenONFlag()
             stopAndUnbindService()
-            onRecordingCompleted()
+            if (isConnected()) {
+                onRecordingCompleted()
+            }
         }
     }
 

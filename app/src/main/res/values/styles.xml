@@ -11,7 +11,6 @@
     <!-- Record screen theme. -->
     <style name="RecordTheme" parent="AppTheme">
         <item name="android:windowBackground">@color/colorPrimary</item>
-        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
 </resources>
