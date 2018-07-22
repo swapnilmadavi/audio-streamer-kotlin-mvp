@@ -62,6 +62,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         super.onActivityCreated(savedInstanceState)
 
         val layoutManager = LinearLayoutManager(context)
+
         adapter = SessionsAdapter {
             Toast.makeText(context,"${it.sid} clicked!", Toast.LENGTH_SHORT).show()
             presenter.loadSession(it.sid)

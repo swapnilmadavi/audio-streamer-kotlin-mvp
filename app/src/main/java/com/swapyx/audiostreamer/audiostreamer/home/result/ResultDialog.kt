@@ -1,5 +1,6 @@
 package com.swapyx.audiostreamer.audiostreamer.home.result
 
+import android.content.Context
 import android.support.v4.app.DialogFragment
 import android.os.Bundle
 import android.view.ViewGroup
@@ -36,11 +37,11 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
     private lateinit var resultProgress: ProgressBar
     private lateinit var audioUrl: String
 
+    private var listener: ResultDialogListener? = null
+
     private var mediaPlayer: MediaPlayer? = null
 
     private var result: SessionResult? = null
-
-    private var playing = false
 
     private var showPending = false
 
@@ -94,9 +95,29 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
 
         closeButton.setOnClickListener {
             if (dialog.isShowing){
+                if (!showPending) {
+                    listener?.refreshSessionList()
+                }
                 dialog.dismiss()
             }
         }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            listener = context as ResultDialogListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString() + " must implement ResultDialogListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
     }
 
     private fun readData() {
@@ -160,7 +181,6 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
     fun setAndShowResult(result: SessionResult) {
         Log.d(TAG, "setAndShowResult")
         this.result = result
-        showPending = false
         setFields(result)
         initMediaPlayer()
         hideProgress()
@@ -242,6 +262,11 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
         // Set the width of the dialog proportional to 75% of the screen width
         window.setLayout((size.x * 0.9).toInt(), WindowManager.LayoutParams.WRAP_CONTENT)
         window.setGravity(Gravity.CENTER)
+    }
+
+    interface ResultDialogListener {
+
+        fun refreshSessionList()
     }
 
     companion object {

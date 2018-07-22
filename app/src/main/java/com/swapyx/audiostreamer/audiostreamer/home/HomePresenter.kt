@@ -23,7 +23,6 @@ class HomePresenter(var recordView: HomeContract.View?) : HomeContract.Presenter
             if (result != null) {
                 setResultFlagOnReturn()
                 setResultOnReturn(result)
-                setPastSessionsDataAsDirty()
             } else {
                 showSessionFailed()
             }

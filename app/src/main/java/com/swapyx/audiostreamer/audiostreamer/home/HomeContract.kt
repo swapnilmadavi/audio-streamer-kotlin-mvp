@@ -21,7 +21,6 @@ interface HomeContract {
 
         fun setResultOnReturn(result: SessionResult)
 
-        fun setPastSessionsDataAsDirty()
     }
 
     interface Presenter : BasePresenter {

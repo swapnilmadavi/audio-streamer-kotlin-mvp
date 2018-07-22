@@ -28,7 +28,8 @@ import com.swapyx.audiostreamer.audiostreamer.util.NetworkUtils
 
 
 class HomeActivity : AppCompatActivity(), HomeContract.View,
-        NetworkChangeReceiver.NetworkChangeListener, SessionsFragment.SessionsListListener {
+        NetworkChangeReceiver.NetworkChangeListener, SessionsFragment.SessionsListListener,
+        ResultDialog.ResultDialogListener {
 
     override lateinit var presenter: HomeContract.Presenter
 
@@ -91,6 +92,9 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
     override fun onResume() {
         super.onResume()
         registerReceiver(networkChangeReceiver, IntentFilter(CONNECTIVITY_ACTION))
+        if (!sessionsFragment.isDataLoaded()){
+            sessionsPresenter.loadPastSessions()
+        }
     }
 
     override fun onPostResume() {
@@ -98,10 +102,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
         if (resultDialogFlagOnReturn) {
             showResultDialog()
             resultDialogFlagOnReturn = false
-        } else {
-            if (!sessionsFragment.isDataLoaded()){
-                sessionsPresenter.loadPastSessions()
-            }
         }
     }
 
@@ -138,10 +138,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
 
     override fun showSessionFailed() {
         showToastMessage("Session failed!", Toast.LENGTH_LONG)
-    }
-
-    override fun setPastSessionsDataAsDirty() {
-        sessionsPresenter.setDataAsDirty()
     }
 
     override fun showResultDialog() {
@@ -200,6 +196,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
 
     override fun isConnectedToNetwork(): Boolean {
         return NetworkUtils.isNetworkConnected(this)
+    }
+
+    override fun refreshSessionList() {
+        sessionsPresenter.loadPastSessions()
     }
 
     private fun setUpAppBar() {
