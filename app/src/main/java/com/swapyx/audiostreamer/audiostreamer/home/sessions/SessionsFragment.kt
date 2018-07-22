@@ -1,13 +1,13 @@
 package com.swapyx.audiostreamer.audiostreamer.home.sessions
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.swapyx.audiostreamer.audiostreamer.R
 import com.swapyx.audiostreamer.audiostreamer.custom.DividerItemDecorator
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
 /**
  * A simple [Fragment] subclass.
@@ -63,6 +64,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         val layoutManager = LinearLayoutManager(context)
         adapter = SessionsAdapter {
             Toast.makeText(context,"${it.sid} clicked!", Toast.LENGTH_SHORT).show()
+            presenter.loadSession(it.sid)
         }
 
         pastSessionsList.layoutManager = layoutManager
@@ -125,6 +127,23 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         return listener?.isConnectedToNetwork() ?: false
     }
 
+    override fun showResultDialog() {
+        listener?.showPendingResultDialog()
+    }
+
+    override fun relayResult(result: SessionResult) {
+        Log.d(TAG, "relayResult")
+        listener?.setResultForDialog(result)
+    }
+
+    override fun showResultError() {
+        listener?.showResultError()
+    }
+
+    override fun dismissResultDialog() {
+        listener?.dismissResultDialog()
+    }
+
     private fun showErrorLabel() {
         errorLabel.visibility = View.VISIBLE
     }
@@ -145,6 +164,14 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         fun isConnected() : Boolean
 
         fun isConnectedToNetwork(): Boolean
+
+        fun showPendingResultDialog()
+
+        fun setResultForDialog(result: SessionResult)
+
+        fun showResultError()
+
+        fun dismissResultDialog()
     }
 
     companion object {

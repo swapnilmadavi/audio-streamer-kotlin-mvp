@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
@@ -145,8 +146,33 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
 
     override fun showResultDialog() {
         val fm = supportFragmentManager
-        val abortRecordingDialogFragment = ResultDialog.newInstance(sessionResult!!)
+        val abortRecordingDialogFragment = ResultDialog.newInstance(result = sessionResult)
         abortRecordingDialogFragment.show(fm, "fragment_result")
+    }
+
+    override fun showPendingResultDialog() {
+        val fm = supportFragmentManager
+        val abortRecordingDialogFragment = ResultDialog.newInstance(true, null)
+        abortRecordingDialogFragment.show(fm, "fragment_result")
+    }
+
+    override fun setResultForDialog(result: SessionResult) {
+        Log.d(TAG, "setResultForDialog")
+        val resultDialog = supportFragmentManager.findFragmentByTag("fragment_result")
+                as ResultDialog?
+
+        resultDialog?.setAndShowResult(result)
+    }
+
+    override fun showResultError() {
+        showToastMessage("Error fetching result", Toast.LENGTH_SHORT)
+    }
+
+    override fun dismissResultDialog() {
+        val resultDialog = supportFragmentManager.findFragmentByTag("fragment_result")
+                as ResultDialog?
+
+        resultDialog?.dialog?.dismiss()
     }
 
     override fun isConnected() = online

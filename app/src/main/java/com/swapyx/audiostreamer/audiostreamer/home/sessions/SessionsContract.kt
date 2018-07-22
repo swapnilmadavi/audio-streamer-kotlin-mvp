@@ -3,6 +3,7 @@ package com.swapyx.audiostreamer.audiostreamer.home.sessions
 import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
 interface SessionsContract {
 
@@ -20,10 +21,19 @@ interface SessionsContract {
 
         fun setDataLoaded(dataLoaded: Boolean)
 
+        fun showResultDialog()
+
+        fun relayResult(result: SessionResult)
+
+        fun showResultError()
+
+        fun dismissResultDialog()
     }
 
     interface Presenter : BasePresenter {
 
         fun loadPastSessions()
+
+        fun loadSession(sid: String)
     }
 }

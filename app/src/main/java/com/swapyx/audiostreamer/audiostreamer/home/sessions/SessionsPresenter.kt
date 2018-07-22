@@ -1,6 +1,8 @@
 package com.swapyx.audiostreamer.audiostreamer.home.sessions
 
+import android.util.Log
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
+import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioDataSource
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
 
@@ -48,6 +50,29 @@ class SessionsPresenter(
                     showError("Fetching failed")
                 }
             }
+        })
+    }
+
+    override fun loadSession(sid: String) {
+        sessionsView?.showResultDialog()
+
+        fetchSessionResult(sid)
+    }
+
+    private fun fetchSessionResult(sid: String) {
+        audioRepository.loadSessionResult(sid, object: AudioDataSource.LoadSessionResultListener {
+            override fun onSessionResultLoaded(result: SessionResult) {
+                Log.d("RecordPresenter", result.toString())
+                sessionsView?.relayResult(result)
+            }
+
+            override fun onFailure() {
+                sessionsView?.apply {
+                    showResultError()
+                    dismissResultDialog()
+                }
+            }
+
         })
     }
 

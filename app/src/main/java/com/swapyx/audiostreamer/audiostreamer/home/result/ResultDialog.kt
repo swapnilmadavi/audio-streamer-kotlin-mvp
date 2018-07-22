@@ -20,6 +20,7 @@ import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResu
 import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
+import android.widget.ProgressBar
 import java.io.IOException
 
 
@@ -32,11 +33,16 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
     private lateinit var progress: FABProgressCircle
     private lateinit var playStopButton: FloatingActionButton
     private lateinit var closeButton: ImageButton
+    private lateinit var resultProgress: ProgressBar
     private lateinit var audioUrl: String
 
     private var mediaPlayer: MediaPlayer? = null
 
+    private var result: SessionResult? = null
+
     private var playing = false
+
+    private var showPending = false
 
     private var audioPrepared = false
 
@@ -50,6 +56,7 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
             sessionScoreText = findViewById(R.id.score_text)
             sessionTimeStampText = findViewById(R.id.session_timestamp_text)
             sessionLengthText = findViewById(R.id.session_length_text)
+            resultProgress = findViewById(R.id.result_progress)
         }
         return view
     }
@@ -59,7 +66,16 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
 
         readData()
 
-        initMediaPlayer()
+        if (showPending) {
+            showProgress()
+            hideFields()
+            disablePlayStopButton()
+        } else {
+            if (result != null) {
+                setFields(result!!)
+                initMediaPlayer()
+            }
+        }
 
         playStopButton.setOnClickListener {
             if (mediaPlayer?.isPlaying == false) {
@@ -84,13 +100,15 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
     }
 
     private fun readData() {
-        val result = arguments?.getParcelable<SessionResult>(ARGUMENT_SESSION_RESULT)
-        if (result != null) {
-            sessionScoreText.text = getString(R.string.your_score, result.data.score.toString())
-            sessionTimeStampText.text = result.timestamp.toString()
-            sessionLengthText.text = result.data.length.toString()
-            audioUrl = "http://192.168.1.100:8000/file/${result.sId}"
-        }
+        result = arguments?.getParcelable<SessionResult>(ARGUMENT_SESSION_RESULT)
+        showPending = arguments?.getBoolean(ARGUMENT_SHOW_PENDING) ?: false
+    }
+
+    private fun setFields(result: SessionResult) {
+        sessionScoreText.text = getString(R.string.your_score, result.data.score.toString())
+        sessionTimeStampText.text = result.timestamp.toString()
+        sessionLengthText.text = result.data.length.toString()
+        audioUrl = "http://192.168.1.101:8000/file/${result.sId}"
     }
 
     private fun initMediaPlayer() {
@@ -126,7 +144,6 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
         }
     }
 
-
     override fun onResume() {
         matchToWindowSize()
         super.onResume()
@@ -138,6 +155,45 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
             stopAudio()
             mediaPlayer?.release()
         }
+    }
+
+    fun setAndShowResult(result: SessionResult) {
+        Log.d(TAG, "setAndShowResult")
+        this.result = result
+        showPending = false
+        setFields(result)
+        initMediaPlayer()
+        hideProgress()
+        showFields()
+        enablePlayStopButton()
+    }
+
+    private fun enablePlayStopButton() {
+        playStopButton.isEnabled = true
+    }
+
+    private fun disablePlayStopButton() {
+        playStopButton.isEnabled = false
+    }
+
+    private fun showFields() {
+        sessionScoreText.visibility = View.VISIBLE
+        sessionTimeStampText.visibility = View.VISIBLE
+        sessionLengthText.visibility = View.VISIBLE
+    }
+
+    private fun hideFields() {
+        sessionScoreText.visibility = View.GONE
+        sessionTimeStampText.visibility = View.GONE
+        sessionLengthText.visibility = View.GONE
+    }
+
+    private fun showProgress() {
+        resultProgress.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        resultProgress.visibility = View.GONE
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
@@ -190,11 +246,13 @@ class ResultDialog : DialogFragment(), MediaPlayer.OnCompletionListener,
 
     companion object {
         private val TAG = ResultDialog::class.java.simpleName
+        private const val ARGUMENT_SHOW_PENDING = "show_pending"
         private const val ARGUMENT_SESSION_RESULT = "session_result"
 
-        fun newInstance(result: Parcelable): ResultDialog {
+        fun newInstance(showPending: Boolean = false, result: Parcelable?): ResultDialog {
             return ResultDialog().apply {
                 arguments = Bundle().apply {
+                    putBoolean(ARGUMENT_SHOW_PENDING, showPending)
                     putParcelable(ARGUMENT_SESSION_RESULT, result)
                 }
             }
