@@ -1,5 +1,6 @@
 package com.swapyx.audiostreamer.audiostreamer
 
+import android.app.Notification
 import android.app.Service
 import android.content.Intent
 import android.media.AudioFormat
@@ -15,6 +16,11 @@ import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
 import okhttp3.*
 import okio.ByteString
 import org.json.JSONObject
+import android.os.Build
+import android.app.PendingIntent
+import android.support.v4.app.NotificationCompat
+import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
+
 
 class RecordingService : Service() {
 
@@ -39,7 +45,6 @@ class RecordingService : Service() {
     private var recording = false
 
     private var timeInSeconds = 0
-
 
     override fun onBind(intent: Intent): IBinder {
         return binder
@@ -105,12 +110,37 @@ class RecordingService : Service() {
     fun startRecording() {
         Log.d(TAG, "start recording")
         webSocket = client.newWebSocket(request, listener)
+        startForeground(NOTIFICATION_ID, getNotification());
     }
 
     fun stopRecording() {
         Log.d(TAG, "stop recording")
         recordingAsyncTask!!.cancel(true)
+        stopForeground(true)
     }
+
+
+    /**
+     * Returns the [NotificationCompat] used as part of the foreground service.
+     */
+    private fun getNotification(): Notification {
+
+        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentText("Recording...")
+                .setContentTitle(getString(R.string.app_name))
+                .setOngoing(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setWhen(System.currentTimeMillis())
+
+        // The PendingIntent to launch activity.
+        val resultIntent = Intent(this, RecordActivity::class.java)
+        val resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT)
+        builder.setContentIntent(resultPendingIntent)
+
+        return builder.build()
+    }
+
 
     inner class RecordingAsyncTask : AsyncTask<Void, Void, Void>() {
 
@@ -230,6 +260,14 @@ class RecordingService : Service() {
     }
 
     companion object {
+        /**
+         * The identifier for the notification displayed for the foreground service.
+         */
+        private const val NOTIFICATION_ID = 12345678
+
+
+        private const val CHANNEL_ID = "channel_01"
+
         private const val RECORDING_RATE = 16000
 
         private const val CHANNEL_IN = AudioFormat.CHANNEL_IN_MONO

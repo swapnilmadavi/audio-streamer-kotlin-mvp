@@ -26,6 +26,7 @@
             android:name=".record.RecordActivity"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
             android:theme="@style/RecordTheme" />
 
         <service
