@@ -16,10 +16,9 @@ import com.swapyx.audiostreamer.audiostreamer.data.RemoteClientProvider
 import okhttp3.*
 import okio.ByteString
 import org.json.JSONObject
-import android.os.Build
 import android.app.PendingIntent
 import android.support.v4.app.NotificationCompat
-import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
+import com.swapyx.audiostreamer.audiostreamer.ui.record.RecordActivity
 
 
 class RecordingService : Service() {

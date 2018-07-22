@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".record.RecordActivity"
-            android:parentActivityName=".home.HomeActivity"
+            android:name=".ui.record.RecordActivity"
+            android:parentActivityName=".ui.home.HomeActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:theme="@style/RecordTheme" />

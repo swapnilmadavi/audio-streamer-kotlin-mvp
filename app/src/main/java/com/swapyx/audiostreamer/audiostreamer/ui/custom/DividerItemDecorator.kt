@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.custom
+package com.swapyx.audiostreamer.audiostreamer.ui.custom
 
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView

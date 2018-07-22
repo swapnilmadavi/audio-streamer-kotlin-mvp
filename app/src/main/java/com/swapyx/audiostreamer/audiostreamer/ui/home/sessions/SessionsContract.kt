@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.home.sessions
+package com.swapyx.audiostreamer.audiostreamer.ui.home.sessions
 
 import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView

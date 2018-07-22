@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.record
+package com.swapyx.audiostreamer.audiostreamer.ui.record
 
 import com.swapyx.audiostreamer.audiostreamer.BasePresenter
 import com.swapyx.audiostreamer.audiostreamer.BaseView

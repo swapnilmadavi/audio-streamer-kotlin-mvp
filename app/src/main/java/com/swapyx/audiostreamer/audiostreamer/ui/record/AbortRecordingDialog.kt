@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.record
+package com.swapyx.audiostreamer.audiostreamer.ui.record
 
 import android.app.Dialog
 import android.content.Context

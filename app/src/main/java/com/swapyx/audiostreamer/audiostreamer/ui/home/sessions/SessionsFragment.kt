@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.home.sessions
+package com.swapyx.audiostreamer.audiostreamer.ui.home.sessions
 
 import android.content.Context
 import android.os.Bundle
@@ -16,7 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 
 import com.swapyx.audiostreamer.audiostreamer.R
-import com.swapyx.audiostreamer.audiostreamer.custom.DividerItemDecorator
+import com.swapyx.audiostreamer.audiostreamer.ui.custom.DividerItemDecorator
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.Session
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
@@ -64,7 +64,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         val layoutManager = LinearLayoutManager(context)
 
         adapter = SessionsAdapter {
-            Toast.makeText(context,"${it.sid} clicked!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "${it.sid} clicked!", Toast.LENGTH_SHORT).show()
             presenter.loadSession(it.sid)
         }
 

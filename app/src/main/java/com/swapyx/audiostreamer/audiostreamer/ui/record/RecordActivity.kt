@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.record
+package com.swapyx.audiostreamer.audiostreamer.ui.record
 
 import android.Manifest
 import android.app.Activity

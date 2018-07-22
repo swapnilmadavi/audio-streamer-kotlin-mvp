@@ -1,8 +1,8 @@
-package com.swapyx.audiostreamer.audiostreamer.home
+package com.swapyx.audiostreamer.audiostreamer.ui.home
 
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 
-class HomePresenter(var recordView: HomeContract.View?) : HomeContract.Presenter{
+class HomePresenter(var recordView: HomeContract.View?) : HomeContract.Presenter {
 
     init {
         recordView?.presenter = this

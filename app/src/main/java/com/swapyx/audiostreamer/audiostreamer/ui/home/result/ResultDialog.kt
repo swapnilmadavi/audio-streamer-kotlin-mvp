@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.home.result
+package com.swapyx.audiostreamer.audiostreamer.ui.home.result
 
 import android.content.Context
 import android.support.v4.app.DialogFragment

@@ -1,4 +1,4 @@
-package com.swapyx.audiostreamer.audiostreamer.home
+package com.swapyx.audiostreamer.audiostreamer.ui.home
 
 import android.content.Intent
 import android.content.IntentFilter
@@ -14,16 +14,16 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.swapyx.audiostreamer.audiostreamer.R
-import com.swapyx.audiostreamer.audiostreamer.record.RecordActivity
+import com.swapyx.audiostreamer.audiostreamer.ui.record.RecordActivity
 import com.swapyx.audiostreamer.audiostreamer.util.showToastMessage
 import kotlin.math.abs
 import com.swapyx.audiostreamer.audiostreamer.NetworkChangeReceiver
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.model.SessionResult
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.AudioRepository
 import com.swapyx.audiostreamer.audiostreamer.data.audioserver.source.remote.AudioRemoteDataSource
-import com.swapyx.audiostreamer.audiostreamer.home.result.ResultDialog
-import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsFragment
-import com.swapyx.audiostreamer.audiostreamer.home.sessions.SessionsPresenter
+import com.swapyx.audiostreamer.audiostreamer.ui.home.result.ResultDialog
+import com.swapyx.audiostreamer.audiostreamer.ui.home.sessions.SessionsFragment
+import com.swapyx.audiostreamer.audiostreamer.ui.home.sessions.SessionsPresenter
 import com.swapyx.audiostreamer.audiostreamer.util.NetworkUtils
 
 
