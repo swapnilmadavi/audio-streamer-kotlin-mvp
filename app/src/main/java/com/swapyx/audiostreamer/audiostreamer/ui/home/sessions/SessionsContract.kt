@@ -28,6 +28,12 @@ interface SessionsContract {
         fun showResultError()
 
         fun dismissResultDialog()
+
+        fun clearList()
+
+        fun hideList()
+
+        fun hideErrorText()
     }
 
     interface Presenter : BasePresenter {

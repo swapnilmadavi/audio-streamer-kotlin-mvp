@@ -30,10 +30,12 @@ class SessionsAdapter(
     }
 
     fun updateList(list: List<Session>) {
-        if (pastSessionsList.isNotEmpty()){
-            pastSessionsList.clear()
-        }
         pastSessionsList.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun clearList() {
+        pastSessionsList.clear()
         notifyDataSetChanged()
     }
 

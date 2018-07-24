@@ -4,14 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 
@@ -41,7 +40,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
 
     private lateinit var errorLabel: TextView
 
-    private lateinit var progress: ProgressBar
+    private lateinit var swipeContainer: SwipeRefreshLayout
 
     private var dataLoaded = false
 
@@ -52,7 +51,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         with(view) {
             pastSessionsList = findViewById(R.id.past_sessions_list)
             errorLabel = findViewById(R.id.error_text)
-            progress = findViewById(R.id.progress_sessions_list)
+            swipeContainer = findViewById(R.id.swipeContainer)
         }
 
         return view
@@ -77,6 +76,12 @@ class SessionsFragment : Fragment(), SessionsContract.View {
 
         pastSessionsList.adapter = adapter
 
+        swipeContainer.setOnRefreshListener {
+            presenter.loadPastSessions()
+        }
+
+        swipeContainer.isRefreshing = true
+
         //presenter.loadPastSessions()
     }
 
@@ -98,7 +103,7 @@ class SessionsFragment : Fragment(), SessionsContract.View {
     }
 
     override fun hideProgress() {
-        progress.visibility = View.GONE
+        swipeContainer.isRefreshing = false
     }
 
     override fun updateList(sessionList: List<Session>) {
@@ -107,13 +112,27 @@ class SessionsFragment : Fragment(), SessionsContract.View {
         }
     }
 
+    override fun clearList() {
+        pastSessionsList.post {
+            adapter.clearList()
+        }
+    }
+
     override fun showList() {
         pastSessionsList.visibility = View.VISIBLE
+    }
+
+    override fun hideList() {
+        pastSessionsList.visibility = View.GONE
     }
 
     override fun showError(error: String) {
         errorLabel.text = error
         showErrorLabel()
+    }
+
+    override fun hideErrorText() {
+        errorLabel.visibility = View.GONE
     }
 
     override fun setDataLoaded(dataLoaded: Boolean) {

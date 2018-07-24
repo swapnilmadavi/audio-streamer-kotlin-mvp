@@ -21,6 +21,7 @@ class SessionsPresenter(
         } else {
             with(sessionsView!!) {
                 hideProgress()
+                hideList()
                 showError("No internet connection")
             }
         }
@@ -32,14 +33,16 @@ class SessionsPresenter(
                 if (sessionList.isEmpty()) {
                     with(sessionsView!!) {
                         hideProgress()
+                        hideList()
                         showError("No past sessions")
                     }
                 } else {
                     with(sessionsView!!) {
-                        hideProgress()
+                        clearList()
                         updateList(sessionList)
-                        setDataLoaded(true)
+                        hideErrorText()
                         showList()
+                        hideProgress()
                     }
                 }
             }
@@ -47,6 +50,7 @@ class SessionsPresenter(
             override fun onFailure() {
                 with(sessionsView!!) {
                     hideProgress()
+                    hideList()
                     showError("Fetching failed")
                 }
             }
