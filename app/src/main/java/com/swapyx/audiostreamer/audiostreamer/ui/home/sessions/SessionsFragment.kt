@@ -75,8 +75,6 @@ class SessionsFragment : Fragment(), SessionsContract.View {
 
         pastSessionsList.addItemDecoration(dividerItemDecoration)
 
-        ViewCompat.setNestedScrollingEnabled(pastSessionsList, false)
-
         pastSessionsList.adapter = adapter
 
         //presenter.loadPastSessions()
