@@ -93,7 +93,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
         super.onResume()
         registerReceiver(networkChangeReceiver, IntentFilter(CONNECTIVITY_ACTION))
         if (!sessionsFragment.isDataLoaded()){
-            sessionsPresenter.loadPastSessions()
+            sessionsPresenter.refreshSessionList()
         }
     }
 
@@ -199,7 +199,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View,
     }
 
     override fun refreshSessionList() {
-        sessionsPresenter.loadPastSessions()
+        sessionsPresenter.refreshSessionList()
     }
 
     private fun setUpAppBar() {

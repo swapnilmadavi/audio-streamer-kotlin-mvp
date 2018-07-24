@@ -40,6 +40,7 @@ class SessionsPresenter(
                     with(sessionsView!!) {
                         clearList()
                         updateList(sessionList)
+                        setDataLoaded(true)
                         hideErrorText()
                         showList()
                         hideProgress()
@@ -84,8 +85,9 @@ class SessionsPresenter(
         sessionsView = null
     }
 
-    fun setDataAsDirty() {
-        sessionsView?.setDataLoaded(false)
+    fun refreshSessionList() {
+        sessionsView?.showProgress()
+        loadPastSessions()
     }
 
 }

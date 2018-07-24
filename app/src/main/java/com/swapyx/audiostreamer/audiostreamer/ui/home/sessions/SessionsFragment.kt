@@ -80,9 +80,6 @@ class SessionsFragment : Fragment(), SessionsContract.View {
             presenter.loadPastSessions()
         }
 
-        swipeContainer.isRefreshing = true
-
-        //presenter.loadPastSessions()
     }
 
     override fun onAttach(context: Context) {
@@ -100,6 +97,10 @@ class SessionsFragment : Fragment(), SessionsContract.View {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun showProgress() {
+        swipeContainer.isRefreshing = true
     }
 
     override fun hideProgress() {

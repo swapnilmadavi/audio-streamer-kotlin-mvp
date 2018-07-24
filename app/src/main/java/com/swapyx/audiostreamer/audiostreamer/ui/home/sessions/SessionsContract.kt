@@ -34,6 +34,8 @@ interface SessionsContract {
         fun hideList()
 
         fun hideErrorText()
+
+        fun showProgress()
     }
 
     interface Presenter : BasePresenter {
