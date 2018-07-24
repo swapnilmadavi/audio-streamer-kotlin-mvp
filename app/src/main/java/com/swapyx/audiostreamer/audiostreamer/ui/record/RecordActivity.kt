@@ -212,6 +212,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
         stopRecordingService()
     }
 
+    override fun abortRecording() {
+        recordingService?.abortRecording()
+    }
+
     override fun onStreamingStarted(sId: String) {
         presenter.onStreamingStarted(sId)
     }
@@ -222,6 +226,10 @@ class RecordActivity : AppCompatActivity(), RecordContract.View,
 
     override fun onRecordingError() {
         presenter.onRecordingError()
+    }
+
+    override fun onRecordingAborted() {
+        presenter.onRecordingAborted()
     }
 
     override fun changeRecordButtonUi() {

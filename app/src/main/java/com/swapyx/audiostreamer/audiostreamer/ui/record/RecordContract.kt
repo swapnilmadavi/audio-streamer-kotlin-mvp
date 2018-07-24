@@ -59,6 +59,8 @@ interface RecordContract {
 
         fun showNetworkErrorDialog()
 
+        fun abortRecording()
+
     }
 
     interface Presenter : BasePresenter {
@@ -79,5 +81,7 @@ interface RecordContract {
         fun onUpdateTime(timeInSeconds: Int)
 
         fun onAbortClicked()
+
+        fun onRecordingAborted()
     }
 }

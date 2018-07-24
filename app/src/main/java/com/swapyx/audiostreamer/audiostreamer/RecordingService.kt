@@ -23,6 +23,10 @@ import com.swapyx.audiostreamer.audiostreamer.ui.record.RecordActivity
 
 class RecordingService : Service() {
 
+    enum class ServiceState{
+        RECORDING, STOPPED, ABORTED
+    }
+
     private var TAG = RecordingService::class.java.simpleName
 
     // Binder given to clients
@@ -41,9 +45,11 @@ class RecordingService : Service() {
 
     private lateinit var timeHandler: Handler
 
-    private var recording = false
+    private var foreground = false
 
     private var timeInSeconds = 0
+
+    private var serviceState = ServiceState.STOPPED
 
     override fun onBind(intent: Intent): IBinder {
         return binder
@@ -61,6 +67,7 @@ class RecordingService : Service() {
                 0 -> streamServiceListener?.onStreamingStarted(msg.obj as String)
                 1 -> streamServiceListener?.onStreamingStopped()
                 2 -> streamServiceListener?.onRecordingError()
+                3 -> streamServiceListener?.onRecordingAborted()
             }
             true
         }
@@ -85,7 +92,7 @@ class RecordingService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        if (recording) {
+        if (serviceState == ServiceState.RECORDING) {
             if (recordingAsyncTask != null) {
                 recordingAsyncTask!!.cancel(true)
             }
@@ -109,15 +116,28 @@ class RecordingService : Service() {
     fun startRecording() {
         Log.d(TAG, "start recording")
         webSocket = client.newWebSocket(request, listener)
-        startForeground(NOTIFICATION_ID, getNotification());
+        startForeground(NOTIFICATION_ID, getNotification())
+        foreground = true
     }
 
     fun stopRecording() {
         Log.d(TAG, "stop recording")
+        serviceState = ServiceState.STOPPED
         recordingAsyncTask!!.cancel(true)
-        stopForeground(true)
+        bringToBackground()
     }
 
+    fun abortRecording() {
+        Log.d(TAG, "abort recording")
+        serviceState = ServiceState.ABORTED
+        recordingAsyncTask!!.cancel(true)
+        bringToBackground()
+    }
+
+    private fun bringToBackground() {
+        stopForeground(true)
+        foreground = false
+    }
 
     /**
      * Returns the [NotificationCompat] used as part of the foreground service.
@@ -140,7 +160,6 @@ class RecordingService : Service() {
         return builder.build()
     }
 
-
     inner class RecordingAsyncTask : AsyncTask<Void, Void, Void>() {
 
         private var recorder: AudioRecord? = null
@@ -156,7 +175,6 @@ class RecordingService : Service() {
                 timeHandler.sendEmptyMessage(0)
 
                 recorder!!.startRecording()
-                recording = true
 
                 while (!isCancelled) {
 
@@ -181,10 +199,14 @@ class RecordingService : Service() {
 
                 webSocket.close(1000, "STOP")
 
-                val m = messageHandler.obtainMessage(1)
-                messageHandler.sendMessage(m)
+                messageHandler.sendMessage(
+                        when(serviceState) {
+                            ServiceState.STOPPED -> messageHandler.obtainMessage(1)
+                            ServiceState.ABORTED -> messageHandler.obtainMessage(3)
+                            else -> messageHandler.obtainMessage(1) //Stopped
+                        }
+                )
 
-                recording = false
                 recorder = null
             }
 
@@ -224,6 +246,7 @@ class RecordingService : Service() {
                     messageHandler.sendMessage(m)
                     recordingAsyncTask = RecordingAsyncTask()
                     recordingAsyncTask!!.execute()
+                    serviceState = ServiceState.RECORDING
                 }
             } catch (e : Exception) {
                 Log.d(TAG, "onMessage error=> ${e.localizedMessage}")
@@ -256,6 +279,7 @@ class RecordingService : Service() {
         fun onStreamingStopped()
         fun onRecordingError()
         fun onUpdateTime(timeInSeconds: Int)
+        fun onRecordingAborted()
     }
 
     companion object {

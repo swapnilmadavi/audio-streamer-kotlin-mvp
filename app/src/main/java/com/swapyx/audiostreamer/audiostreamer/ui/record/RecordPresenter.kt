@@ -90,6 +90,13 @@ class RecordPresenter(
         }
     }
 
+    override fun onRecordingAborted() {
+        recordView?.apply {
+            setSessionCancelled()
+            returnToHome()
+        }
+    }
+
     override fun fetchSessionResult(sId: String) {
         recordView?.apply {
             showResultMessage()
@@ -130,11 +137,7 @@ class RecordPresenter(
     }
 
     override fun onAbortClicked() {
-        recordView?.apply {
-            stopAndUnbindService()
-            setSessionCancelled()
-            returnToHome()
-        }
+        recordView?.abortRecording()
     }
 
     override fun onDestroy() {
